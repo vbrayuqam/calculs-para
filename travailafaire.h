@@ -1,13 +1,15 @@
-/* Multiplications scalaire-vecteur */
+//Multiplications scalaire-vecteur
 
 void scalvec_orig( double, double*, int );
 void scalvec_sse( double, double*, int );
 void scalvec_avx( double, double*, int );
 
-/* Multiplications matrice-matrice */
+//Multiplications matrice-matrice
 
 void matmult_orig( double*, double*, double*, int, int, int );
+void matmult_sse( double*, double*, double*, int, int, int );
+void matmult_avx( double*, double*, double*, int, int, int );
 
-/* Multiplications vecteur-matrice */
+//Multiplications vecteur-matrice
 
-/* Elimination Gaussienne */
+//Elimination Gaussienne

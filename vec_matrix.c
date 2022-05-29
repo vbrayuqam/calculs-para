@@ -3,7 +3,6 @@
 #include <stdint.h> // pour uint64_t
 #include <string.h> // pour memset
 #include <x86intrin.h>
-
 #include "matrices.h"
 #include "travailafaire.h"
 
@@ -15,28 +14,18 @@ int main( int argc, char** argv ){
     double *vec, *vec_cpy;
     double *A, *B, *C;
     int M = DEFAULT_M, N = DEFAULT_N;
-    uint64_t tv1, tv2, tv3, tv4, tv5, tv6, tm1, tm2;
-
-
-    /* On regarde si l'utilisateur a passé une taille en paramètre */
+    uint64_t tv1, tv2, tv3, tv4, tv5, tv6, tm1, tm2, tm3, tm4, tm5, tm6;
 
     if( argc > 1 ){
         M = atoi( argv[ 1 ] );
         if( argc > 2 ){
             N = atoi( argv[ 2 ] );
         } else {
-            /* Si l'utilisateur ne passe qu'un paramètre sur la ligne
-               de commande, on utilise une matrice carrée */
             N = M;
         }
     }
-
-    /* Initialisation du générateur de nombres aléatoires
-       sur une valeur fixe (reproductibilité de l'aléa) */
     
     srand( 0 );
-
-    /* Initialisation de la matrice et du vecteur */
 
     A = allouerMatrice( M, N );
     initMatrice( A, M, N );
@@ -47,21 +36,17 @@ int main( int argc, char** argv ){
     
     vec = allouerMatrice( 1, N );
     initMatrice( vec, 1, N );
-    
-    /* On garde une copie du vecteur */
+
     vec_cpy = allouerMatrice( 1, N );
     copierMatrice( vec_cpy, vec, 1, N );
 
-    /* On affiche la matrice  et le vecteur */
-
+    // Affichage des états d'origine
     printf("\nMATRICE D'ORIGINE\n");
     afficherMatrice( A, M, N );
     printf("\nVECTEUR D'ORIGINE\n");
     afficherMatrice( vec, 1, N );
 
-    /* On commence les choses intéressantes : multiplication scalaire-vecteur */
-
-    /* scalvec_orig */
+    // scalvec_orig
     tv1 = __rdtsc();
     scalvec_orig( SCALAIRE, vec, N );
     tv2 = __rdtsc();
@@ -69,7 +54,7 @@ int main( int argc, char** argv ){
     afficherMatrice( vec, 1, N );
     copierMatrice( vec, vec_cpy, 1, N );
 
-    /* scalvec_sse */
+    // scalvec_sse
     tv3 = __rdtsc();
     scalvec_sse( SCALAIRE, vec, N );
     tv4 = __rdtsc();
@@ -77,14 +62,13 @@ int main( int argc, char** argv ){
     afficherMatrice( vec, 1, N );
     copierMatrice( vec, vec_cpy, 1, N );
 
-    /*scalvec_axv*/
+    // scalvec_axv
     tv5 = __rdtsc();
     scalvec_avx( SCALAIRE, vec, N );
     tv6 = __rdtsc();
     printf("\nRESULTAT SCALVEC_AVX\n");
     afficherMatrice( vec, 1, N );
     copierMatrice( vec, vec_cpy, 1, N );
-
 
     /* On l'affiche au format Octave, pour pouvoir 
        la copier-coller dans Octave */
@@ -112,19 +96,19 @@ int main( int argc, char** argv ){
 
     /* Ajoutez ici l'élimination gaussienne (plusieurs implementations) */
 
-    
-    /* Affichage des temps */
+    // Affichage des temps
+    printf("# OPERATION \t TAILLE \t TEMPS\n" );
+    printf("SCALVEC_ORIG \t  %d %d \t %ld\n", M, N, (tv2-tv1));
+    printf("SCALVEC_SSE \t  %d %d \t %ld\n", M, N, (tv4-tv3));
+    printf("SCALVEC_AVX \t  %d %d \t %ld\n", M, N, (tv6-tv5));
+    printf("MATMULT_ORIG \t  %d %d \t %ld\n", M, N, (tm2-tm1));
+    printf("MATMULT_SSE \t  %d %d \t %ld\n", M, N, (tm2-tm1));
+    printf("MATMULT_AVX \t  %d %d \t %ld\n", M, N, (tm2-tm1));
 
-    printf( "# OPERATION \t TAILLE \t TEMPS\n" );
-    printf( "SCALVEC_ORIG \t  %d %d \t %ld\n", M, N, (tv2-tv1) );
-    printf( "SCALVEC_SSE \t  %d %d \t %ld\n", M, N, (tv4-tv3) );
-    printf( "SCALVEC_AVX \t  %d %d \t %ld\n", M, N, (tv6-tv5) );
-    printf( "MATMULT1 \t  %d %d \t %ld\n", M, N, (tm2-tm1) );
-
-    free( A );
-    free( B );
-    free( C );
-    free( vec );
-    free( vec_cpy );
+    free(A);
+    free(B);
+    free(C);
+    free(vec);
+    free(vec_cpy);
     return EXIT_SUCCESS;
 }
