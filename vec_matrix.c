@@ -15,7 +15,7 @@ int main( int argc, char** argv ){
     double *vec, *vec_cpy;
     double *A, *B, *C;
     int M = DEFAULT_M, N = DEFAULT_N;
-    uint64_t tv1, tv2, tm1, tm2;
+    uint64_t tv1, tv2, tv3, tv4, tv5, tv6, tm1, tm2;
 
 
     /* On regarde si l'utilisateur a passé une taille en paramètre */
@@ -52,27 +52,39 @@ int main( int argc, char** argv ){
     vec_cpy = allouerMatrice( 1, N );
     copierMatrice( vec_cpy, vec, 1, N );
 
-    /* On affiche la matrice */
+    /* On affiche la matrice  et le vecteur */
 
-    //   afficherMatrice( A, M, N );
+    printf("\nMATRICE D'ORIGINE\n");
+    afficherMatrice( A, M, N );
+    printf("\nVECTEUR D'ORIGINE\n");
+    afficherMatrice( vec, 1, N );
 
     /* On commence les choses intéressantes : multiplication scalaire-vecteur */
 
+    /* scalvec_orig */
     tv1 = __rdtsc();
     scalvec_orig( SCALAIRE, vec, N );
     tv2 = __rdtsc();
-
-    /* On copie le vecteur qu'on a gardé dans vec_cpy pour faire
-       le calcul sur les mêmes données */
-
+    printf("\nRESULTAT SCALVEC_ORIG\n");
+    afficherMatrice( vec, 1, N );
     copierMatrice( vec, vec_cpy, 1, N );
 
-    /* Ajoutez ici les autres implementations */
+    /* scalvec_sse */
+    tv3 = __rdtsc();
+    scalvec_sse( SCALAIRE, vec, N );
+    tv4 = __rdtsc();
+    printf("\nRESULTAT SCALVEC_SSE\n");
+    afficherMatrice( vec, 1, N );
+    copierMatrice( vec, vec_cpy, 1, N );
 
-    
-    
-    // afficherMatrice( vec, 1, N );
-    // afficherMatrice( vec_cpy, 1, N );
+    /*scalvec_axv*/
+    tv5 = __rdtsc();
+    scalvec_avx( SCALAIRE, vec, N );
+    tv6 = __rdtsc();
+    printf("\nRESULTAT SCALVEC_AVX\n");
+    afficherMatrice( vec, 1, N );
+    copierMatrice( vec, vec_cpy, 1, N );
+
 
     /* On l'affiche au format Octave, pour pouvoir 
        la copier-coller dans Octave */
@@ -104,8 +116,9 @@ int main( int argc, char** argv ){
     /* Affichage des temps */
 
     printf( "# OPERATION \t TAILLE \t TEMPS\n" );
-    printf( "SCALVEC1 \t  %d %d \t %ld\n", M, N, (tv2-tv1) );
-
+    printf( "SCALVEC_ORIG \t  %d %d \t %ld\n", M, N, (tv2-tv1) );
+    printf( "SCALVEC_SSE \t  %d %d \t %ld\n", M, N, (tv4-tv3) );
+    printf( "SCALVEC_AVX \t  %d %d \t %ld\n", M, N, (tv6-tv5) );
     printf( "MATMULT1 \t  %d %d \t %ld\n", M, N, (tm2-tm1) );
 
     free( A );
