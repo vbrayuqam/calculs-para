@@ -1,0 +1,31 @@
+## Documentation
+
+Ceci est un exemple. N'oubliez pas de le modifier pour prendre en compte
+les éventuelles modifications.
+
+Pour compiler :
+
+```
+make
+```
+
+Pour exécuter :
+
+```
+./vec_matrices
+```
+
+Exécutera avec la taille par défaut. On passe la taille en paramètre de la ligne de commande :
+
+
+```
+./vec_matrices 16
+```
+travaillera sur des vecteurs de taille 16 et des matrices de taille 16*16.
+
+
+```
+./vec_matrices 16 32
+```
+travaillera sur des vecteurs de taille 16 et des matrices de taille 16*32.
+
