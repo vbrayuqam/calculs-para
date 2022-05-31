@@ -1,8 +1,8 @@
 //Multiplications scalaire-vecteur
 
-void scalvec_orig( double, double*, int );
-void scalvec_sse( double, double*, int );
-void scalvec_avx( double, double*, int );
+void scalvec_orig(double, double*, int);
+void scalvec_sse(double, double*, int);
+void scalvec_avx(double, double*, int);
 
 //Multiplications matrice-matrice
 
@@ -11,5 +11,8 @@ void matmult_sse( double*, double*, double*, int, int, int );
 void matmult_avx( double*, double*, double*, int, int, int );
 
 //Multiplications vecteur-matrice
+void matvec_orig();
+void matvec_sse();
+void matvec_avx();
 
 //Elimination Gaussienne

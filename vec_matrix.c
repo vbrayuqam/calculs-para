@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h> // pour uint64_t
-#include <string.h> // pour memset
+#include <stdint.h>
+#include <string.h>
 #include <x86intrin.h>
 #include "matrices.h"
 #include "travailafaire.h"
@@ -32,7 +32,7 @@ int main( int argc, char** argv ){
     B = allouerMatrice( M, N );
     initMatrice( B, M, N );
     C = allouerMatrice( M, N );
-    memset( C, 0, M*N*sizeof( double ) ); // on l'initialise à 0
+    memset( C, 0, M*N*sizeof( double ) );
     
     vec = allouerMatrice( 1, N );
     initMatrice( vec, 1, N );
@@ -41,8 +41,10 @@ int main( int argc, char** argv ){
     copierMatrice( vec_cpy, vec, 1, N );
 
     // Affichage des états d'origine
-    printf("\nMATRICE D'ORIGINE\n");
+    printf("\nMATRICE D'ORIGINE A\n");
     afficherMatrice( A, M, N );
+    printf("\nMATRICE D'ORIGINE B\n");
+    afficherMatrice( B, M, N );
     printf("\nVECTEUR D'ORIGINE\n");
     afficherMatrice( vec, 1, N );
 
@@ -70,40 +72,41 @@ int main( int argc, char** argv ){
     afficherMatrice( vec, 1, N );
     copierMatrice( vec, vec_cpy, 1, N );
 
-    /* On l'affiche au format Octave, pour pouvoir 
-       la copier-coller dans Octave */
-    
-    afficherMatriceOctave( A, M, N );
-
-    /* Multiplications matrice-matrice */
-    
+    // matmult_orig
     tm1 = __rdtsc();
     matmult_orig( C, A, B, M, N, N );
     tm2 = __rdtsc();
+    printf("\nRESULTAT MATMULT_ORIG\n");
+    afficherMatrice(C, M, N);
+    memset( C, 0, M*N*sizeof( double ) );
 
-    /* Verification */
-    
-    printf( " A = " );
-    afficherMatriceOctave( A, M, N );
-    printf( " B = " );
-    afficherMatriceOctave( B, N, N );
-    printf( " C = " );
-    afficherMatriceOctave( C, M, N );
-    
-    /* Ajoutez ici les autres implementations */
+    // matmult_sse
+    tm3 = __rdtsc();
+    matmult_sse( C, A, B, M, N, N );
+    tm4 = __rdtsc();
+    printf("\nRESULTAT MATMULT_SSE\n");
+    afficherMatrice(C, M, N);
+    memset( C, 0, M*N*sizeof( double ) );
+
+    // matmult_avx
+    tm5 = __rdtsc();
+    matmult_avx( C, A, B, M, N, N );
+    tm6 = __rdtsc();
+    printf("\nRESULTAT MATMULT_AVX\n");
+    afficherMatrice(C, M, N);
 
     /* Ajoutez ici les produits vecteur-matrice */
 
     /* Ajoutez ici l'élimination gaussienne (plusieurs implementations) */
 
     // Affichage des temps
-    printf("# OPERATION \t TAILLE \t TEMPS\n" );
+    printf("\n# OPERATION \t TAILLE \t TEMPS\n" );
     printf("SCALVEC_ORIG \t  %d %d \t %ld\n", M, N, (tv2-tv1));
     printf("SCALVEC_SSE \t  %d %d \t %ld\n", M, N, (tv4-tv3));
     printf("SCALVEC_AVX \t  %d %d \t %ld\n", M, N, (tv6-tv5));
     printf("MATMULT_ORIG \t  %d %d \t %ld\n", M, N, (tm2-tm1));
-    printf("MATMULT_SSE \t  %d %d \t %ld\n", M, N, (tm2-tm1));
-    printf("MATMULT_AVX \t  %d %d \t %ld\n", M, N, (tm2-tm1));
+    printf("MATMULT_SSE \t  %d %d \t %ld\n", M, N, (tm4-tm3));
+    printf("MATMULT_AVX \t  %d %d \t %ld\n", M, N, (tm6-tm5));
 
     free(A);
     free(B);

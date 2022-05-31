@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "travailafaire.h"
 #include <x86intrin.h>
 
@@ -20,7 +19,7 @@ void scalvec_sse(double scal, double* vec, int N){
         finVec = N;
         reste = 0;
     } else {
-        finVec= N - N%2;
+        finVec = N - N%2;
         reste = 1;
     }
 

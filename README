@@ -16,11 +16,11 @@ Exécutera avec la taille par défaut. On passe la taille en paramètre de la li
 ```
 ./vec_matrix 16
 ```
-travaillera sur des vecteurs de taille 16 et des matrices de taille 16*16.
+Travaillera sur des vecteurs de taille 16 et des matrices de taille 16*16.
 
 
 ```
 ./vec_matrix 16 32
 ```
-travaillera sur des vecteurs de taille 16 et des matrices de taille 16*32.
+Travaillera sur des vecteurs de taille 16 et des matrices de taille 16*32.
 
