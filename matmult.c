@@ -67,8 +67,7 @@ void matmult_avx( double* C, double* A, double* B, int M, int N, int K ) {
             double temp[4] = {0, 0, 0, 0};
             for (int k = 0; k < fin; k += 4) {
                 registreA = _mm256_set_pd(A[i * K + k], A[i * K + (k + 1)], A[i * K + (k + 2)], A[i * K + (k + 3)]);
-                registreB = _mm256_set_pd(B[k * N + j], B[((k + 1) * N) + j], B[((k + 2) * N) + j],
-                                          B[((k + 3) * N) + j]);
+                registreB = _mm256_set_pd(B[k * N + j], B[((k + 1) * N) + j], B[((k + 2) * N) + j],B[((k + 3) * N) + j]);
                 registreResultat = _mm256_mul_pd(registreA, registreB);
                 registreA = _mm256_load_pd((double *) &temp);
                 registreB = _mm256_add_pd(registreA, registreResultat);
