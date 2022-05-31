@@ -15,7 +15,7 @@ void scalvec_sse(double scal, double* vec, int N){
     __m128d registreScalaire;
     __m128d registreResultat;
 
-    if(0 == N%2){
+    if(0 == N%2) {
         finVec = N;
         reste = 0;
     } else {
@@ -45,7 +45,7 @@ void scalvec_avx(double scal, double* vec, int N){
     __m256d registreScalaire;
     __m256d registreResultat;
 
-    if(0 == N%4){
+    if(0 == N%4) {
         finVec = N;
         reste = 0;
     } else {

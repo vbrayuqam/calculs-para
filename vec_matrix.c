@@ -97,28 +97,28 @@ int main(int argc, char** argv){
     memset(C, 0, M*N*sizeof( double ));
 
     // matvec_orig
+    memset(vec_cpy, 0, 1*N*sizeof( double ));
     tvm1 = __rdtsc();
-    matvec_orig(C, A, vec, M, N);
+    matvec_orig(vec_cpy, A, vec, M, N);
     tvm2 = __rdtsc();
     printf("\nRESULTAT MATVEC_ORIG\n");
-    afficherMatrice(C, M, N);
-    memset(C, 0, M*N*sizeof( double ));
+    afficherMatrice(vec_cpy, 1, N);
 
     // matvec_sse
+    memset(vec_cpy, 0, 1*N*sizeof( double ));
     tvm3 = __rdtsc();
-    matvec_sse(C, A, vec, M, N);
+    matvec_sse(vec_cpy, A, vec, M, N);
     tvm4 = __rdtsc();
-    printf("\nRESULTAT MATVEC_ORIG\n");
-    afficherMatrice(C, M, N);
-    memset(C, 0, M*N*sizeof( double ));
+    printf("\nRESULTAT MATVEC_SSE\n");
+    afficherMatrice(vec_cpy, 1, N);
 
     // matvec_avx
+    memset(vec_cpy, 0, 1*N*sizeof( double ));
     tvm5 = __rdtsc();
-    matvec_avx(C, A, vec, M, N);
+    matvec_avx(vec_cpy, A, vec, M, N);
     tvm6 = __rdtsc();
-    printf("\nRESULTAT MATVEC_ORIG\n");
-    afficherMatrice(C, M, N);
-    memset(C, 0, M*N*sizeof( double ));
+    printf("\nRESULTAT MATVEC_AVX\n");
+    afficherMatrice(vec_cpy, 1, N);
 
     /* Ajoutez ici l'élimination gaussienne (plusieurs implementations) */
 
