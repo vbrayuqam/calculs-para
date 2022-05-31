@@ -7,7 +7,7 @@ EXEC = vec_matrix
 
 all: $(EXEC)
 
-vec_matrix: matrices.o vec_matrix.o scalvec.o matmult.o
+vec_matrix: matrices.o vec_matrix.o scalvec.o matmult.o matvec.o
 	$(LD) $(LDOPT) -o $@ $^
 
 %.o: %.c
