@@ -26,6 +26,6 @@ Travaillera sur des vecteurs de taille 16 et des matrices de taille 16*32.
 
 
 ##Analyse
-J'ai remarquer que mes fonctions donne de bien meilleure résultat sur de grosses matrices.
-Je suppose que c'est à cause des branchements pour gérer les restes.
-Les fonctions qui utilise SSE sont généralement moins rapides qu'avec AVX mais performe souvient mieux sur de petites matrices.
+J'ai remarquer que mes fonctions donnent de bien meilleure résultat sur de grosses matrices.
+Je suppose que ceci est causé par les branchements pour gérer les restes.
+Les fonctions qui utilise SSE sont généralement moins rapides qu'avec AVX mais performent souvient mieux sur de petites matrices.
