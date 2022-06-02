@@ -20,9 +20,10 @@ Travaillera sur des vecteurs de taille 16 et des matrices de taille 16*16.
 
 
 ```
-./vec_matrix 16 32
+./vec_matrix 32
 ```
-Travaillera sur des vecteurs de taille 16 et des matrices de taille 16*32.
+Travaillera sur des vecteurs de taille 16 et des matrices de taille 32*16.
+Pour les matrices avec une hauteur et largeur différente, prière de mettre la plus petite taille en deuxième (pour mon algo vecteur-matrice, petite particuliarité à l'implémentation).
 
 
 ##Analyse
